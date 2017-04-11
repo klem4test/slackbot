@@ -15,10 +15,12 @@ requests_log.propagate = True
 class SyncClient:
     def __init__(self, token: str):
         self.token = token
+        self.wss_url = None
 
     def start(self):
-        return self.__rtm(
+        rtm_response = self.__rtm(
             'rtm.start', 'get', params={'token': self.token})
+        self.wss_url = rtm_response['url']
 
     def __rtm(self, rtm_method: str, http_method: str, params: dict = None):
         if not params:
@@ -26,7 +28,4 @@ class SyncClient:
 
         url = urljoin(conf.SLACK_API_URL, rtm_method)
         response = getattr(requests, http_method)(url, params=params)
-        return {
-            'code': response.status_code,
-            'json': response.json()
-        }
+        return response.json()
