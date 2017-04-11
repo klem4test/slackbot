@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from client import Client
+from client import SyncClient
 
 if __name__ == '__main__':
-    c = Client()
-    c.
+    c = SyncClient('xoxb-167954558500-BHbrVzJTUuMqBfNrzOtRQK5I')
+    print(c.start())
