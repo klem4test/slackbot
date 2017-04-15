@@ -10,8 +10,8 @@ from log import default_logger as logger
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
-    client = SlackAsyncClient('xoxb-167954558500-gynLZemDSn3WpVtbSf2oeiX7')
+    client = SlackAsyncClient('xoxb-167954558500-JPVVdNgSegokJ6boH0Oii6cd')
     bot = TestBot(loop, client)
-    loop.run_until_complete(bot.run())
+    loop.run_until_complete(bot.life_cycle())
 
     logger.info(bot.client.wss_url)

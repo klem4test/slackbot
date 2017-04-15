@@ -1,0 +1,2 @@
+# run.py <bot> <token> [<args>]
+# demonize

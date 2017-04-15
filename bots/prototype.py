@@ -15,7 +15,7 @@ class SlackBotPrototype:
         self.logger = logger
         self.loop_wait = loop_wait
 
-    async def run(self):
+    async def life_cycle(self):
         await self.client.start()
         session = aiohttp.ClientSession()
 
@@ -25,10 +25,10 @@ class SlackBotPrototype:
             self.logger.debug("loop iteration")
             try:
                 msg = await ws.receive()
-                await self.process_message(msg)
+                await self.react(msg)
                 await asyncio.sleep(self.loop_wait)
-            except Exception as e:
+            except Exception:
                 self.logger.exception("Unhandled exception")
 
-    async def process_message(self, msg: WSMessage):
+    async def react(self, msg: WSMessage):
         raise NotImplementedError()

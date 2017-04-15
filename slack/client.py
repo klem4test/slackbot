@@ -9,8 +9,8 @@ from log import default_logger
 class SlackAsyncClient:
     def __init__(self, token: str, logger=default_logger):
         self.token = token
-        self.wss_url = None
         self.logger = logger
+        self.wss_url = None
 
     async def start(self):
         rtm_response = await self.__rtm(
