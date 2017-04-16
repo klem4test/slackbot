@@ -11,7 +11,7 @@ from log import default_logger as logger
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
-    client = SlackAsyncClient('xoxb-167954558500-JPVVdNgSegokJ6boH0Oii6cd')
+    client = SlackAsyncClient('xoxb-167954558500-QULCbv5OyRDZ7xPTZuqRJlGx')
     bot = TestBot(loop, client)
     loop.run_until_complete(bot.run())
 
