@@ -12,6 +12,6 @@ if __name__ == '__main__':
 
     client = SlackAsyncClient('xoxb-167954558500-JPVVdNgSegokJ6boH0Oii6cd')
     bot = TestBot(loop, client)
-    loop.run_until_complete(bot.life_cycle())
+    loop.run_until_complete(bot.run())
 
     logger.info(bot.client.wss_url)
