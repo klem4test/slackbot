@@ -1,1 +1,3 @@
-from .bot_test import TestBot
+# coding: utf-8
+
+from .bot_ping_pong import PingPongBot
