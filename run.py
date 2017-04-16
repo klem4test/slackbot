@@ -3,9 +3,10 @@
 
 import asyncio
 
-from slack.client import SlackAsyncClient
+from client import SlackAsyncClient
 from bots import TestBot
 from log import default_logger as logger
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

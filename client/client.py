@@ -4,6 +4,7 @@ from aiohttp import ClientSession
 from urllib.parse import urljoin
 import conf
 from log import default_logger
+from client import exceptions
 
 
 class SlackAsyncClient:
@@ -16,7 +17,11 @@ class SlackAsyncClient:
     async def start(self):
         rtm_response = await self.__rtm(
             'rtm.start', 'get', params={'token': self.token})
-        self.wss_url = rtm_response['url']
+        try:
+            self.wss_url = rtm_response['url']
+        except KeyError:
+            if not rtm_response['ok']:
+                raise exceptions.NotAuthenticatedError(rtm_response['error'])
 
     async def terminate(self):
         await self.session.close()
