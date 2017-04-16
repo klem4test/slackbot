@@ -1,2 +1,3 @@
-# run.py <bot> <token> [<args>]
-# demonize
+# demonize on -d
+# normal run.py params
+# gitignore
