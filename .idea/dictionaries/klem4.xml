@@ -2,6 +2,7 @@
   <dictionary name="klem4">
     <words>
       <w>hdlr</w>
+      <w>websocket</w>
     </words>
   </dictionary>
 </component>

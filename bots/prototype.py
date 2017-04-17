@@ -13,7 +13,7 @@ from client import SlackAsyncClient, exceptions
 class SlackBotPrototype(ExceptionHandler):
     exceptions = OrderedDict({
         exceptions.NotAuthenticatedError: {
-            '': '_err_non_authenticated_client'
+            '': '_on_err_non_authenticated_client'
         }
     })
 
@@ -34,24 +34,17 @@ class SlackBotPrototype(ExceptionHandler):
             await self.terminate()
 
     async def init(self):
-        await self.client.start()
+        await self.client.connect()
 
     async def life_cycle(self):
-        session = aiohttp.ClientSession()
-
-        ws = await session.ws_connect(self.client.wss_url)
-
         while True:
             self.logger.debug("loop iteration")
             try:
-                msg = await ws.receive()
+                msg = await self.client.ws.receive()
                 await self.react(msg)
                 await asyncio.sleep(self.loop_wait)
             except Exception:
                 self.logger.exception("Unhandled exception")
-
-    async def on_error(self, exception):
-        pass
 
     async def terminate(self):
         await self.client.terminate()
@@ -59,5 +52,5 @@ class SlackBotPrototype(ExceptionHandler):
     async def react(self, msg: WSMessage):
         raise NotImplementedError()
 
-    async def _err_non_authenticated_client(self, error):
+    async def _on_err_non_authenticated_client(self, error):
         self.logger.error(str(error))

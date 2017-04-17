@@ -6,4 +6,4 @@ from bots.prototype import SlackBotPrototype
 
 class PingPongBot(SlackBotPrototype):
     async def react(self, msg: WSMessage):
-        self.logger.info("RECEIVE MESSAGE: [%s] %s" % (msg.tp, msg.data))
+        self.logger.debug("RECEIVE MESSAGE: [%s] %s" % (msg.tp, msg.data))
