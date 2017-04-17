@@ -47,7 +47,7 @@ class SlackBotPrototype(ExceptionHandler):
                 self.logger.exception("Unhandled exception")
 
     async def terminate(self):
-        await self.client.terminate()
+        await self.client.disconnect()
 
     async def react(self, msg: WSMessage):
         raise NotImplementedError()

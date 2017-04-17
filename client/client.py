@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from aiohttp import ClientSession
+from aiohttp.client_ws import  ClientWebSocketResponse
 from urllib.parse import urljoin
 import conf
 from log import default_logger
@@ -11,18 +12,20 @@ class SlackAsyncClient:
     def __init__(self, token: str, logger=default_logger):
         self.token = token
         self.logger = logger
-        self.wss_url = None
-        self._websocket = None
+        self.wss_url = None     # type: str
+        self._websocket = None  # type: ClientWebSocketResponse
         self.session = ClientSession()
 
-    async def connect(self):
+    async def connect(self) -> None:
         await self.rtm_start()
         self._websocket = await self.session.ws_connect(self.wss_url)
 
-    async def terminate(self):
+    async def disconnect(self) -> None:
+        if self._websocket:
+            await self._websocket.close()
         await self.session.close()
 
-    async def rtm_start(self):
+    async def rtm_start(self) -> None:
         rtm_response = await self.__rtm(
             'rtm.start', 'get', params={'token': self.token})
         try:
@@ -32,7 +35,7 @@ class SlackAsyncClient:
                 raise exceptions.NotAuthenticatedError(rtm_response['error'])
 
     async def __rtm(self, rtm_method: str, http_method: str,
-                    params: dict = None):
+                    params: dict = None) -> dict:
         self.logger.debug("__rtm %s" % (rtm_method.upper()))
 
         if not params:
@@ -46,5 +49,5 @@ class SlackAsyncClient:
         return await response.json()
 
     @property
-    def ws(self):
+    def ws(self) -> ClientWebSocketResponse:
         return self._websocket
