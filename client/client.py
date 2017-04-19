@@ -14,18 +14,19 @@ class SlackAsyncClient:
         self.logger = logger
         self.wss_url = None     # type: str
         self._websocket = None  # type: ClientWebSocketResponse
-        self.session = ClientSession()
+        self.session = None     # type: ClientWebSocketResponse
 
-    async def connect(self) -> None:
+    async def connect(self):
+        self.session = ClientSession()
         await self.rtm_start()
         self._websocket = await self.session.ws_connect(self.wss_url)
 
-    async def disconnect(self) -> None:
+    async def disconnect(self):
         if self._websocket:
             await self._websocket.close()
         await self.session.close()
 
-    async def rtm_start(self) -> None:
+    async def rtm_start(self):
         rtm_response = await self.__rtm(
             'rtm.start', 'get', params={'token': self.token})
         try:
