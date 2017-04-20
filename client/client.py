@@ -35,6 +35,13 @@ class SlackAsyncClient:
             if not rtm_response['ok']:
                 raise exceptions.NotAuthenticatedError(rtm_response['error'])
 
+    def send_msg(self, msg: str, channel:str):
+        self.ws.send_json({
+            "type": "message",
+            "channel": channel,
+            "text": msg
+        })
+
     async def __rtm(self, rtm_method: str, http_method: str,
                     params: dict = None) -> dict:
         self.logger.debug("__rtm %s" % (rtm_method.upper()))
